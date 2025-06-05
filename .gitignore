@@ -137,3 +137,4 @@ dist
 
 # App
 build
+/src/generated/prisma

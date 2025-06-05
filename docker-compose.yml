@@ -1,0 +1,9 @@
+services:
+  api-node-crypto:
+    image: bitnami/postgresql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=crypto_user
+      - POSTGRESQL_PASSWORD=crypto_pass
+      - POSTGRESQL_DATABASE=crypto_db
