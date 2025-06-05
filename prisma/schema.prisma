@@ -6,3 +6,12 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model EncryptionLog {
+  id           Int      @id @default(autoincrement())
+  originalText String
+  encrypted    String
+  key          String
+  iv           String
+  createdAt    DateTime @default(now())
+}
