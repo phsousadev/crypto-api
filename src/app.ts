@@ -2,8 +2,32 @@ import fastify from 'fastify'
 import { routes } from './http/routes'
 import { ZodError } from 'zod'
 import { env } from 'env'
+import fastifySwagger from '@fastify/swagger'
+import fastifySwaggerUi from '@fastify/swagger-ui'
 
 export const app = fastify()
+
+app.register(fastifySwagger, {
+  swagger: {
+    info: {
+      title: 'Crypto API',
+      description: 'AES-256-CTR Encryption System',
+      version: '1.0.0',
+    },
+    tags: [
+      { name: 'Encrypt', description: 'Text encryption' },
+      { name: 'Decrypt', description: 'Text decryption' },
+    ],
+  },
+})
+
+app.register(fastifySwaggerUi, {
+  routePrefix: '/docs',
+  uiConfig: {
+    docExpansion: 'list',
+    deepLinking: true,
+  },
+})
 
 app.register(routes)
 
