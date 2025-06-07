@@ -103,8 +103,6 @@ export function decryptText(
       msg: 'Decryption failed',
       data: {
         encryptedLength: encrypted.length,
-        key,
-        iv,
       },
       error: (error as Error).message,
     })
