@@ -29,7 +29,7 @@ API simples para criptografia e descriptografia de textos, construída com **Typ
 
 Antes de rodar o projeto, tenha instalado:
 
-- **Docker** (para banco de dados)
+- **Docker** (para banco de dadose e aplicação)
 - **Node.js** (v22+)
 - **npm** (gerenciador de pacotes)
 
@@ -54,13 +54,7 @@ git clone https://github.com/seuusuario/crypto-api.git
 cd crypto-api
 ```
 
-3. Instale as dependências:
-
-```bash
-npm install
-```
-
-4. Criando o arquivo `.env`
+3. Criando o arquivo `.env`
 Copie o arquivo `.env.example` para um novo arquivo `.env` na raiz do projeto, mantendo as mesmas configurações iniciais:
 
 ```bash
@@ -70,5 +64,5 @@ cp .env.example .env
 5. Execute o projeto:
 
 ```bash
-npm run dev
+docker compose up -d
 ```
