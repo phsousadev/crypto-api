@@ -1,9 +1,29 @@
 services:
   api-solid-pg:
-    image: bitnami/postgresql
+    image: bitnami/postgresql:latest
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       - POSTGRESQL_USERNAME=postgres
       - POSTGRESQL_PASSWORD=pass@123
       - POSTGRESQL_DATABASE=crypt_api_db
+    volumes:
+      - pg-data:/bitnami/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: "postgresql://postgres:pass@123@api-solid-pg:5432/crypt_api_db?schema=public"
+    depends_on:
+      api-solid-pg:
+        condition: service_healthy
+
+volumes:
+  pg-data:
