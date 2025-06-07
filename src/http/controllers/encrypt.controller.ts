@@ -1,4 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { EncryptionFailedError } from 'http/errors/encryption-failed'
 import { makeCreateEncrypTextFactory } from 'http/use-cases/factories/make-create-encrpt-text-factory'
 import { z } from 'zod'
 
@@ -10,9 +11,9 @@ export async function encryptController(
     text: z.string().min(1, 'Text to encrypt cannot be empty.'),
   })
 
-  try {
-    const { text } = encryptBodySchema.parse(request.body)
+  const { text } = encryptBodySchema.parse(request.body)
 
+  try {
     const encryptUseCase = makeCreateEncrypTextFactory()
 
     const { encryptedText, key, iv } = await encryptUseCase.execute({ text })
@@ -22,5 +23,11 @@ export async function encryptController(
       key,
       iv,
     })
-  } catch (err) {}
+  } catch (err) {
+    if (err instanceof EncryptionFailedError) {
+      return reply.status(400).send({ message: err.message })
+    }
+
+    throw err
+  }
 }

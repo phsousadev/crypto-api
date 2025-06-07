@@ -1,3 +1,4 @@
+import { EncryptionFailedError } from 'http/errors/encryption-failed'
 import { EncryptedTextRepository } from 'repositories/encrypt-text'
 import { encryptText } from 'utils/crypt.utils'
 
@@ -17,6 +18,8 @@ export class CreateEncryptTextUseCase {
   async execute({
     text,
   }: CreateEncryptTextUseCaseRequest): Promise<CreateEncryptTextUseCaseResponse> {
+    if (!text) throw new EncryptionFailedError()
+
     const { encryptedText, key, iv } = encryptText(text)
 
     return {

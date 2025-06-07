@@ -12,16 +12,15 @@ export async function decryptController(
     iv: z.string().length(32, 'IV must be 16 bytes in hex (32 characters)'),
   })
 
-  try {
-    const { encrypted, key, iv } = decryptBodySchema.parse(request.body)
+  const { encrypted, key, iv } = decryptBodySchema.parse(request.body)
 
+  try {
     const decryptUseCase = makeCreateDecryptTextFactory()
 
     const result = await decryptUseCase.execute({ encrypted, key, iv })
 
     return reply.send(result)
   } catch (error) {
-    console.error(error)
     return reply.status(400).send({
       message: error instanceof Error ? error.message : 'Invalid request',
     })
