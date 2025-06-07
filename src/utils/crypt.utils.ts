@@ -5,7 +5,7 @@ const IV_LENGTH = 16
 const KEY_LENGTH = 32
 
 export function encryptText(text: string): {
-  encryptedText: string
+  encrypted: string
   key: string
   iv: string
 } {
@@ -18,26 +18,25 @@ export function encryptText(text: string): {
     const key = randomBytes(KEY_LENGTH)
 
     const cipher = createCipheriv(ALGORITHM, key, iv)
-    let encryptedText = cipher.update(text, 'utf8', 'hex')
-    encryptedText += cipher.final('hex')
+    let encrypted = cipher.update(text, 'utf8', 'hex')
+    encrypted += cipher.final('hex')
 
     return {
-      encryptedText,
+      encrypted,
       key: key.toString('hex'),
       iv: iv.toString('hex'),
     }
   } catch (error) {
-    console.error('Error during encryption:')
     throw new Error('Failed to encrypt text.')
   }
 }
 
 export function decryptText(
-  encryptedText: string,
+  encrypted: string,
   key: string,
   iv: string,
 ): { originalText: string } {
-  if (!encryptedText || typeof encryptedText !== 'string') {
+  if (!encrypted || typeof encrypted !== 'string') {
     throw new Error('Encrypted text cannot be empty and must be a string.')
   }
   if (!key || typeof key !== 'string' || !/^[0-9a-fA-F]{64}$/.test(key)) {
@@ -60,12 +59,11 @@ export function decryptText(
     }
 
     const decipher = createDecipheriv(ALGORITHM, keyBuffer, ivBuffer)
-    let decryptedText = decipher.update(encryptedText, 'hex', 'utf8')
+    let decryptedText = decipher.update(encrypted, 'hex', 'utf8')
     decryptedText += decipher.final('utf8')
 
     return { originalText: decryptedText }
   } catch (error) {
-    console.error('Error during decryption:')
     throw new Error(
       'Failed to decrypt text. Check key, IV, and encrypted text.',
     )

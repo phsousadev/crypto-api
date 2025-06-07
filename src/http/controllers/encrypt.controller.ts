@@ -16,10 +16,10 @@ export async function encryptController(
   try {
     const encryptUseCase = makeCreateEncrypTextFactory()
 
-    const { encryptedText, key, iv } = await encryptUseCase.execute({ text })
+    const { encrypted, key, iv } = await encryptUseCase.execute({ text })
 
     return reply.status(201).send({
-      encryptedText,
+      encrypted,
       key,
       iv,
     })

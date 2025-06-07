@@ -8,7 +8,7 @@ interface CreateEncryptTextUseCaseRequest {
 }
 
 interface CreateEncryptTextUseCaseResponse {
-  encryptedText: string
+  encrypted: string
   key: string
   iv: string
 }
@@ -35,17 +35,17 @@ export class CreateEncryptTextUseCase {
     })
 
     try {
-      const { encryptedText, key, iv } = encryptText(text)
+      const { encrypted, key, iv } = encryptText(text)
 
       logger.info({
         msg: 'Encryption successful',
         meta: {
-          encryptedLength: encryptedText.length,
+          encryptedLength: encrypted.length,
         },
       })
 
       return {
-        encryptedText,
+        encrypted,
         key,
         iv,
       }
