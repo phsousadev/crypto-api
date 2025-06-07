@@ -27,7 +27,7 @@ export class CreateEncryptTextUseCase {
     }
 
     logger.info({
-      msg: 'Iniciando criptografia',
+      msg: 'Starting encryption',
       meta: {
         length: text.length,
         preview: text.slice(0, 10),
