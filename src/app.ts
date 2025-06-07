@@ -4,8 +4,15 @@ import { ZodError } from 'zod'
 import { env } from 'env'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
+import cors from '@fastify/cors'
 
 export const app = fastify()
+
+app.register(cors, {
+  origin: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+})
 
 app.register(fastifySwagger, {
   swagger: {
