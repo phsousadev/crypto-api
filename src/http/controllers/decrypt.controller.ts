@@ -1,4 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { DescryptionFailedError } from 'http/errors/decryption-failed'
 import { makeCreateDecryptTextFactory } from 'http/use-cases/factories/make-decryp-text-factory'
 import z from 'zod'
 
@@ -20,9 +21,11 @@ export async function decryptController(
     const result = await decryptUseCase.execute({ encrypted, key, iv })
 
     return reply.send(result)
-  } catch (error) {
-    return reply.status(400).send({
-      message: error instanceof Error ? error.message : 'Invalid request',
-    })
+  } catch (err) {
+    if (err instanceof DescryptionFailedError) {
+      return reply.status(400).send({ message: err.message })
+    }
+
+    throw err
   }
 }

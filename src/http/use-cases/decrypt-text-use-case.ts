@@ -1,3 +1,4 @@
+import { DescryptionFailedError } from 'http/errors/decryption-failed'
 import { EncryptedTextRepository } from 'repositories/encrypt-text'
 import { decryptText } from 'utils/crypt.utils'
 
@@ -16,6 +17,8 @@ export class DecryptUseCase {
 
   async execute(input: DecryptInput): Promise<DecryptResult> {
     const decrypted = decryptText(input.encrypted, input.key, input.iv)
+
+    if (!decrypted) throw new DescryptionFailedError()
 
     return {
       decrypted: decrypted.originalText,
