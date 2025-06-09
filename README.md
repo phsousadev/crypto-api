@@ -61,7 +61,14 @@ Copie o arquivo `.env.example` para um novo arquivo `.env` na raiz do projeto, m
 cp .env.example .env
 ```
 
-5. Execute o projeto:
+5. Execute o projeto diretamente:
+
+```bash
+npm install
+npm run dev
+```
+
+6. Execute o projeto com docker:
 
 ```bash
 docker compose up -d
